@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<head>
+    <title>User</title>
+    <meta charset='utf-8'>
+    <link rel='stylesheet' href='main.css'/>
+</head>
+<body>
+
+
+<section>
+    <h2>Enregistrement</h2>
+    <?php if(isset($error)):?>
+        <p class='error'>
+            <?= $error;?>
+        </p>
+    <?php endif; ?>
+    <form method="post" action="create_user.php">
+        <label for='email'>Email</label>
+        <input type='email' name='email' id='email' <?php if(isset($email)){ echo 'value="'.$email.'"';}?>>
+
+        <label for='password'>Password</label>
+        <input type='password' name='password' id='password'>
+
+        <label for='firstname'>Firstname</label>
+        <input type='text' name='firstname' id ='firstname' <?php if(isset($firstname)){ echo 'value="'.$firstname.'"';}?>>
+
+        <label for='lastname'>Lastname</label>
+        <input type='text' name = 'lastname' id ='lastname' <?php if(isset($lastname)){ echo 'value="'.$lastname.'"';}?>>
+
+
+
+        <input type='submit' name='valider' id= 'valider' value="Valider">
+    </form>
+
+
+</section>
+
+</body>

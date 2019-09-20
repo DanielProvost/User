@@ -1,0 +1,21 @@
+h2{
+    text-align:center;
+}
+
+input,
+label{
+    display:block;
+    max-width:200px;
+    margin: 0 auto;
+
+}
+body{
+    text-align: center;
+    width: 100%;
+    margin:0 auto;
+}
+
+svg{
+    width: 100px;
+    margin:0 auto;
+}
