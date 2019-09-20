@@ -1,5 +1,6 @@
 h2{
     text-align:center;
+    margin-bottom: 5%;
 }
 
 input,
@@ -18,4 +19,7 @@ body{
 svg{
     width: 100px;
     margin:0 auto;
+}
+#valider{
+    margin-top: 5%;
 }

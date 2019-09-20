@@ -1,6 +1,7 @@
 <?php
 
 include 'vendor/autoload.php';
+use Symfony\Component\Dotenv\Dotenv;
 
 use App\Entity\User;
 use App\Model\UserModel;
@@ -21,7 +22,12 @@ if(!empty($_POST)) {
     $fs = new FilesystemHelper();
     $fs->write('uploads/avatars/'. $filename, $svg);
 
-    $pdo = new PDO('mysql:host=localhost;dbname=user','root','',[PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,PDO::ATTR_DEFAULT_FETCH_MODE=>PDO::FETCH_ASSOC]);
+    $dotenv = new Dotenv();
+    $dotenv->load(__DIR__.'/.env');
+
+    $config = explode("##",$_ENV['DATABASE']);
+
+    $pdo = new PDO('mysql:host='.$config[0].';dbname='.$config[1].'',$config[2],$config[3],[PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,PDO::ATTR_DEFAULT_FETCH_MODE=>PDO::FETCH_ASSOC]);
     $pdo ->exec('SET NAMES UTF8');
     $db=new Database($pdo);
     $userModel=new UserModel($db);
