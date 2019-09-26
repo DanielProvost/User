@@ -7,7 +7,8 @@ input,
 label{
     display:block;
     max-width:200px;
-    margin: 0 auto;
+    margin: 1% auto;
+
 
 }
 body{
@@ -21,5 +22,10 @@ svg{
     margin:0 auto;
 }
 #valider{
-    margin-top: 5%;
+    margin-top: 1%;
+}
+form{
+    width: 400px;
+    margin :0 auto;
+    border : 1px black solid;
 }

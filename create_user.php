@@ -1,6 +1,8 @@
 <?php
 
 include 'vendor/autoload.php';
+
+use DI\ContainerBuilder;
 use Symfony\Component\Dotenv\Dotenv;
 
 use App\Entity\User;
@@ -8,6 +10,7 @@ use App\Model\UserModel;
 use App\Service\Avatar\Avatar\SvgAvatarFactory;
 use App\Service\Avatar\Helpers\FilesystemHelper;
 use Core\DB\Database;
+
 
 // Si le formulaire a été soumis, on traite les données
 if(!empty($_POST)) {
@@ -25,13 +28,27 @@ if(!empty($_POST)) {
     $dotenv = new Dotenv();
     $dotenv->load(__DIR__.'/.env');
 
-    $config = explode("##",$_ENV['DATABASE']);
+    $container = ContainerBuilder::buildDevContainer();
+    $container->set('db.config',function(){
+        $config = explode("##",$_ENV['DATABASE']);
+        return [
+            'host' => $config[0],
+            'dbname' => $config[1],
+            'user' => $config[2],
+            'password' => $config[3]
+        ];
+    });
 
-    $pdo = new PDO('mysql:host='.$config[0].';dbname='.$config[1].'',$config[2],$config[3],[PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,PDO::ATTR_DEFAULT_FETCH_MODE=>PDO::FETCH_ASSOC]);
-    $pdo ->exec('SET NAMES UTF8');
+    $container->set(PDO::class,function ($c){
+        $config = $c->get('db.config');
+        $pdo = new PDO('mysql:host='.$config['host'].';dbname='.$config['dbname'].'',$config['user'],$config['password'],[PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,PDO::ATTR_DEFAULT_FETCH_MODE=>PDO::FETCH_ASSOC]);
+        $pdo ->exec('SET NAMES UTF8');
+        return $pdo;
+    });
+    $pdo = $container->get(PDO::class);
+
     $db=new Database($pdo);
     $userModel=new UserModel($db);
-
 
 
     try {
